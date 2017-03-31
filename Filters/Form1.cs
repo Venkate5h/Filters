@@ -146,6 +146,11 @@ namespace Filters
             pictureBox2.Image = hSLLinear.Apply((Bitmap)pictureBox1.Image);
         }
 
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            
+        }
+
         private void openingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Opening opening = new Opening();
