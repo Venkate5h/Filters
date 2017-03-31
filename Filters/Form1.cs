@@ -24,14 +24,14 @@ namespace Filters
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog();
-            if(open.ShowDialog() == DialogResult.OK)
+            if (open.ShowDialog() == DialogResult.OK)
             {
                 flag = 1;
                 Bitmap image = new Bitmap(open.FileName);
-                pictureBox1.Image = (Bitmap) image;
+                pictureBox1.Image = (Bitmap)image;
                 pictureBox2.Image = null;
             }
-            
+
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -45,7 +45,7 @@ namespace Filters
                     pictureBox2.Image.Save(save.FileName);
                 }
             }
-          
+
             else
                 this.Show();
         }
@@ -132,7 +132,7 @@ namespace Filters
         private void hSLLinearToolStripMenuItem_Click(object sender, EventArgs e)
         {
             HSLFiltering hSLFiltering = new HSLFiltering();
-            hSLFiltering.Hue = new IntRange(335, 0);
+            hSLFiltering.Hue = new IntRange(6,18);
             hSLFiltering.Saturation = new Range(0.6f, 1);
             hSLFiltering.Luminance = new Range(0.1f, 1);
             pictureBox2.Image = hSLFiltering.Apply((Bitmap)pictureBox1.Image);
@@ -148,7 +148,47 @@ namespace Filters
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            
+            OpenFileDialog open = new OpenFileDialog();
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                flag = 1;
+                Bitmap image = new Bitmap(open.FileName);
+                pictureBox1.Image = (Bitmap)image;
+                pictureBox2.Image = null;
+            }
+        }
+
+        private void skinDetectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Bitmap sampleImage = new Bitmap(pictureBox1.Image);
+            for(int x = 0; x < sampleImage.Width;x++)
+            {
+                for(int y = 0; y < sampleImage.Height; y++)
+                {
+                    Color colorPixel = sampleImage.GetPixel(x, y);
+                    int r = colorPixel.R;
+                    int g = colorPixel.G;
+                    int b = colorPixel.B;
+                    int differenceMinMax = Math.Max(r, Math.Max(g, b)) - Math.Min(r, Math.Min(g, b));
+                    if (r > 25 & g > 40 & b > 20 & differenceMinMax > 15 & r > g & r > b)
+                        sampleImage.SetPixel(x, y, Color.White);
+                    else if (r > 255 & g > 219 & b > 173)
+                        sampleImage.SetPixel(x, y, Color.Black);
+                    else
+                        sampleImage.SetPixel(x, y, Color.Black);
+                    pictureBox2.Image = (Bitmap)sampleImage;
+                }
+            }
+        }
+
+        private void rotateLeftToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rotateRightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void openingToolStripMenuItem_Click(object sender, EventArgs e)
